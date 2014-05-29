@@ -1,0 +1,59 @@
+package codegen
+import "http://DFN/1.0"
+
+pattern getDFNS(d) {
+	DataFlowNetwork(d);
+}
+
+pattern getNodes(n) {
+	Node(n);
+}
+
+pattern getNodesState(n : Node, s : State) {
+	Node.states(n,s);
+}
+
+pattern getTransitionsByPort(P : Port, T: Transition){
+	Equation.port(I,P);
+	Transition.in(T,I);
+} or {
+	Inequality.port(I,P);
+	Transition.in(T,I);	
+}
+
+
+
+pattern getInPortStringEquationByTransition(T: Transition, S: StringEquation){
+	StringEquation(S);
+	Transition.in(T,S);
+	
+}
+
+pattern getInPortIntEquationByTransition(T: Transition, S: IntEquation){
+	IntEquation(S);
+	Transition.in(T,S);
+}
+
+pattern getInequalityByTransition(T: Transition, S: Inequality){
+	Inequality(S);
+	Transition.in(T,S);
+	
+}  
+
+pattern getOutPortsByNode(N: Node, O: OutPort){
+	Node.ports(N,O);
+	OutPort(O);
+}  
+
+
+
+pattern getOutPortStringEquationByTransition(T: Transition, S: StringEquation){
+	StringEquation(S);
+	Transition.out(T,S);
+	
+}
+
+pattern getOutPortIntEquationByTransition(T: Transition, S: IntEquation){
+	IntEquation(S);
+	Transition.out(T,S);
+}

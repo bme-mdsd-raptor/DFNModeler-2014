@@ -1,0 +1,123 @@
+package validation
+
+import "http://DFN/1.0"
+
+
+@Constraint(
+	location = N,
+	message = "A Transition in the Node $N.Name$ has no source State.",
+	severity = "error"
+)
+pattern noSourceState(T : Transition, N : Node) {
+	neg find sourceState(T);
+	Transition.node(T,N);
+}
+
+@Constraint(
+	location = N,
+	message = "A Transition in the Node $N.Name$ has no target State.",
+	severity = "error"
+)
+pattern noTargetState(T : Transition, N : Node) {
+	neg find targetState(T);
+	Transition.node(T,N);
+}
+
+@Constraint(
+	location = N,
+	message = "A Transition in the Node $N.Name$ has a source and a target node from two different nodes.",
+	severity = "error"
+)
+pattern transStatesInDiffNode(T : Transition, N : Node) {
+	neg find statesInSameNode(T);
+	Transition.node(T,N);
+}
+
+@Constraint(
+	location = N,
+	message = "A Transition in the Node $N.Name$ has no trigger condition defined",
+	severity = "error"
+)
+pattern noTransInmapping(T : Transition, N : Node) {
+	neg find transInmapping(T,_I);
+	Transition.node(T,N);
+}
+
+@Constraint(
+	location = N,
+	message = "Two transitions in Node $N.Name$ are in concurrence due to same priority level and duplicate trigger conditions",
+	severity = "error"
+)
+pattern noEqualPriorityOnSameState(T : Transition,T2:Transition, N : Node) {
+	T != T2;
+	Transition.sourcestate(T,S1);
+	Transition.sourcestate(T2,S2);
+	S1 == S2;
+	
+	Transition.priority(T,p1);
+	Transition.priority(T2,p2);
+	p1 == p2;
+	
+	Transition.in(T,i1);
+	Transition.in(T2,i2);
+	i1 == i2;
+	Transition.node(T,N);
+}
+
+@Constraint(
+	location = N,
+	message = "A transition in Node $N.Name$ refers to mappings in foreign nodes",
+	severity = "error"
+)
+pattern noMappingsFromDiffNodes(T : Transition, N : Node) {
+	find transInmapping(T,I1);
+	InMapping.node(I1, N1);
+	Transition.node(T,N);
+	N !=N1;
+} or {
+	find transOutmapping(T,I1);
+	OutMapping.node(I1, N1);
+	Transition.node(T,N);
+	N != N1;
+
+}
+
+@Constraint(
+	location = N,
+	message = "A transition in Node $N.Name$ has concurrent trigger conditions (same port referred twice)",
+	severity = "error"
+)
+pattern noDuplicateInPorts(T : Transition, N : Node) {
+	find transInmapping(T,I1);
+	find transInmapping(T,I2);
+	I1 != I2;
+	Equation.port(I1,P);
+	Equation.port(I2,P);
+
+	Transition.node(T,N);
+} or {
+	
+	find transInmapping(T,I1);
+	find transInmapping(T,I2);
+	I1 != I2;
+	Inequality.port(I1,P);
+	Inequality.port(I2,P);
+
+	Transition.node(T,N);
+
+}
+
+@Constraint(
+	location = N,
+	message = "A transition in Node $N.Name$ has concurrent out mappings (same port referred twice)",
+	severity = "error"
+)
+pattern noDuplicateOutPorts(T : Transition, N : Node) {
+	find transOutmapping(T,I1);
+	find transOutmapping(T,I2);
+	I1 != I2;
+	Equation.port(I1,P);
+	Equation.port(I2,P);
+
+	Transition.node(T,N);
+}

@@ -1,0 +1,88 @@
+package validation
+
+import "http://DFN/1.0"
+
+
+
+@Constraint(
+	location = N,
+	message = "Node named $N.Name$ has no initial state specified.",
+	severity = "error"
+)
+pattern noInitState(N : Node) {
+	neg find initstate(N,_S);
+}
+
+@Constraint(
+	location = N,
+	message = "Node named $N.Name$ has a foreign state specified as initial state.",
+	severity = "error"
+)
+pattern initStateValid(N : Node) {
+	Node.initialState(N,S);
+	neg find statesOfNode(N, S);
+}
+
+@Constraint(
+	location = N,
+	message = "Node named $N.Name$ has an unnecessary Token named $T.Name$. Please remove this token from the node.",
+	severity = "error"
+)
+pattern unnecessaryTokensOnNode(N : Node, T:Token) {
+	find getNodeTokens(N,T);
+	neg find tokensOnNodesAndChannels(N,T);
+}
+
+
+@Constraint(
+	location = N,
+	message = "Node named $N.Name$ has a missing token in its specification. Try adding the Token named $T.Name$ to the node.",
+	severity = "error"
+)
+pattern missingTokensOnNode(N : Node, T:Token) {
+	find getNodeChannels(N,C);
+	find getChannelToken(C,T);
+	neg find tokensOnNodesAndChannels(N,T);
+}
+
+@Constraint(
+	location = N,
+	message = "Node named $N.Name$ has no input port. Try adding one.",
+	severity = "error"
+)
+pattern noInputPort(N : Node) {
+	neg find inputPort(N);
+}
+
+@Constraint(
+	location = N,
+	message = "Node named $N.Name$ has no output port. Try adding one.",
+	severity = "warning"
+)
+pattern noOutPort(N : Node) {
+	neg find outputPort(N);
+}
+
+@Constraint(
+	location = N,
+	message = "Node named $N.Name$ has no Application rendered to it. Try adding one.",
+	severity = "error"
+)
+pattern noApp(N : Node) {
+	neg find getApp(N,_A);
+}
+
+@Constraint(
+	location = N,
+	message = "Node named $N.Name$ has an application from a different DFN",
+	severity = "error"
+)
+pattern notTheSameDFNSameApp(N : Node) {
+	find getApp(N,A);
+	Application.network(A,D2);
+	Node.network(N,D1);
+	D1!=D2;
+}
+
+
+

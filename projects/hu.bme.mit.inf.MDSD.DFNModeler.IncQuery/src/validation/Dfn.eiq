@@ -1,0 +1,39 @@
+package validation
+
+import "http://DFN/1.0"
+
+pattern getDFNprotocol(d : DataFlowNetwork) {
+	DataFlowNetwork.protocol(d,_p);
+}
+
+pattern getDFNParent(d : DataFlowNetwork) {
+	DataFlowNetwork.network(d,_s);
+}
+
+pattern getRootDFN(d : DataFlowNetwork) {
+	neg find getDFNParent(d);
+}
+
+pattern sameProtocol(d : DataFlowNetwork) {
+	find getRootDFN(root);
+	DataFlowNetwork.protocol(root,a);
+	DataFlowNetwork.protocol(d,a);
+}
+
+@Constraint(
+	location = d,
+	message = "DFN named $d.Name$ has a protocol that is different from the root DFN. At this point no heterogenous communication systems are allowed.",
+	severity = "error"
+)
+pattern notSameProtocol(d : DataFlowNetwork) {
+	neg find sameProtocol(d);
+}
+
+@Constraint(
+	location = d,
+	message = "DFN named $d.Name$ has no Protocol defined.",
+	severity = "error"
+)
+pattern noProtocol(d : DataFlowNetwork) {
+	neg find getDFNprotocol(d);
+}

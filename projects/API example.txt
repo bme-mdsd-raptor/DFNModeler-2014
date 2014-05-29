@@ -1,0 +1,24 @@
+//// **************  API test and usage example  *********************
+//////////////////////////////////////////////////////////////////////
+////
+
+
+List<DataFlowNetwork> dfNs = CodegenAPI.getDFNs(dataModel.eResource());
+for (DataFlowNetwork dataFlowNetwork : dfNs) {
+System.out.println(dataFlowNetwork.getName());
+}
+
+List<Node> nodes = CodegenAPI.getNodes(dataModel.eResource());
+for (Node node : nodes) {
+System.out.println(node.getName());
+}
+
+Map<State, Node> nodeStatePairs = CodegenAPI.getNodeStatePairs(dataModel.eResource());
+Set<State> keySet = nodeStatePairs.keySet();
+for (State state : keySet) {
+System.out.println(state.getName()+" ----> "+ nodeStatePairs.get(state).getName());
+}
+
+////
+/////////////////////////////////////////////////////////////////////
+////

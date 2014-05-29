@@ -1,0 +1,61 @@
+package validation
+
+import "http://DFN/1.0"
+//Port
+
+pattern portOwnerIsDfn(P : Port) {
+	Port.endpoint(P,D);
+	DataFlowNetwork(D);
+}
+
+
+
+@Constraint(
+	location = P,
+	message = "Port named $P.Name$ is not referenced by any mappings, this might cause an error.",
+	severity = "warning"
+)
+pattern unUsedPort(P : Port) {
+	neg find usedPort(P);
+}
+
+@Constraint(
+	location = P,
+	message = "Port named $P.Name$ has no outgoing Channel attached to it.",
+	severity = "error"
+)
+pattern noPortOut(P : OutPort) {
+	neg find outPortOut(P);
+	neg find portOwnerIsDfn(P);
+}
+
+@Constraint(
+	location = P,
+	message = "Port named $P.Name$ has no incoming Channel attached to it.",
+	severity = "error"
+)
+pattern noPortIn(P : InPort) {
+	neg find inPortIn(P);
+	neg find portOwnerIsDfn(P);
+}
+
+@Constraint(
+	location = P,
+	message = "Port named $P.Name$ has no outgoing Channel attached to it. In case of a DFN this is situationally acceptable",
+	severity = "warning"
+)
+pattern noPortOutDFN(P : OutPort) {
+	neg find outPortOut(P);
+	find portOwnerIsDfn(P);
+
+}
+
+@Constraint(
+	location = P,
+	message = "Port named $P.Name$ has no incoming Channel attached to it. In case of a DFN this is situationally acceptable",
+	severity = "warning"
+)
+pattern noPortInDFN(P : InPort) {
+	neg find inPortIn(P);
+	find portOwnerIsDfn(P);
+}

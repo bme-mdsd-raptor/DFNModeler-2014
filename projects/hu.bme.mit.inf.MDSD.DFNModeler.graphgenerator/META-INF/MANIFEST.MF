@@ -1,0 +1,14 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: JPADataGenerator
+Bundle-SymbolicName: hu.bme.mit.inf.MDSD.DFNModeler.graphgenerator
+Bundle-Version: 1.0.0.qualifier
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Require-Bundle: org.eclipse.core.runtime;bundle-version="3.8.0",
+ org.eclipse.core.resources;bundle-version="3.8.1",
+ org.eclipse.xtend.lib,
+ com.google.guava,
+ org.eclipse.xtext.xbase.lib,
+ hu.bme.mit.inf.MDSD.DFNModeler;bundle-version="1.0.0"
+Export-Package: hu.bme.mit.raptor.graphgenerator.templates
+

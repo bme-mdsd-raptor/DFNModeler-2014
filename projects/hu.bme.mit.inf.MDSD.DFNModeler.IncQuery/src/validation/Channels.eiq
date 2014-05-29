@@ -1,0 +1,61 @@
+package validation
+
+import "http://DFN/1.0"
+
+
+
+
+@Constraint(
+	location = C,
+	message = "Channel named $C.Name$ has no source port. Try adding one.",
+	severity = "error"
+)
+pattern noSourcePort(C : Channel) {
+	neg find sourcePort(C,_P);
+}
+
+@Constraint(
+	location = C,
+	message = "Channel named $C.Name$ has no target port. Try adding one.",
+	severity = "error"
+)
+pattern noTargetPort(C : Channel) {
+	neg find targetPort(C,_P);
+}
+
+@Constraint(
+	location = C,
+	message = "Channel named $C.Name$ has no token specified. Try adding one.",
+	severity = "error"
+)
+pattern noToken(C : Channel) {
+	neg find channelToken(C,_T);
+}
+
+@Constraint(
+	location = C,
+	message = "Channel named $C.Name$ is a loop channel around node $n.Name$. Consider revising.",
+	severity = "warning"
+)
+pattern loopNodeChannel(C : Channel, n : Node) {
+	Channel.source(C,E);
+	Channel.target(C,E1);
+	Node.ports(n,E);
+	Node.ports(n,E1);
+}
+
+@Constraint(
+	location = C,
+	message = "Channel named $C.Name$ forms a loop among the ports of DFN $D.Name$. Try adding a dummy node if you want to transparently move the token across the DFN",
+	severity = "error"
+)
+pattern dfnLoop(C : Channel, D : DataFlowNetwork) {
+	Channel.source(C,E);
+	Channel.target(C,E2);
+	DataFlowNetwork.ports(D,E);
+	DataFlowNetwork.ports(D,E2);
+	
+}
+
+
+

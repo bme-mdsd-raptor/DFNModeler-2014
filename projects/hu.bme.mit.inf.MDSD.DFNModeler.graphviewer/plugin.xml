@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+   <extension
+         point="org.eclipse.ui.views">
+      <category
+            name="Sample Category"
+            id="hu.bme.mit.inf.MDSD.DFNModeler.graphviewer">
+      </category>
+      <view
+            name="Graph Sample View"
+            icon="icons/sample.gif"
+            category="hu.bme.mit.inf.MDSD.DFNModeler.graphviewer"
+            class="hu.bme.mit.inf.mdsd.dfnmodeler.graphviewer.views.GraphSampleView"
+            id="hu.bme.mit.inf.mdsd.dfnmodeler.graphviewer.views.GraphSampleView">
+      </view>
+   </extension>
+   <extension
+         point="org.eclipse.ui.perspectiveExtensions">
+      <perspectiveExtension
+            targetID="org.eclipse.jdt.ui.JavaPerspective">
+         <view
+               ratio="0.5"
+               relative="org.eclipse.ui.views.ProblemView"
+               relationship="right"
+               id="hu.bme.mit.inf.mdsd.dfnmodeler.graphviewer.views.GraphSampleView">
+         </view>
+      </perspectiveExtension>
+   </extension>
+   <extension
+         point="org.eclipse.help.contexts">
+      <contexts
+            file="contexts.xml">
+      </contexts>
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            allPopups="false"
+            locationURI="toolbar:org.eclipse.ui.main.toolbar?after=additions">
+         <toolbar
+               id="hu.bme.mit.inf.mdsd.raptortoolbar">
+            <command
+                  commandId="hu.bme.mit.inf.MDSD.DFNModeler.graphviewer.refresh"
+                  disabledIcon="icons/refresh_d.png"
+                  icon="icons/refresh.png"
+                  label="Refresh"
+                  mode="FORCE_TEXT"
+                  style="push">
+            </command>
+         </toolbar>
+      </menuContribution>
+   </extension>
+   <extension
+         point="org.eclipse.ui.commands">
+      <command
+            defaultHandler="hu.bme.mit.inf.mdsd.dfnmodeler.commandhelper.RefreshHelper"
+            id="hu.bme.mit.inf.MDSD.DFNModeler.graphviewer.refresh"
+            name="Refresh Graph Sample View">
+      </command>
+   </extension>
+
+</plugin>

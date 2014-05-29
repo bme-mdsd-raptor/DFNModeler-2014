@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/hu.bme.mit.inf.MDSD.DFNModeler/src" modelPluginID="hu.bme.mit.inf.MDSD.DFNModeler"
+    modelName="DFN" rootExtendsInterface="org.eclipse.emf.cdo.CDOObject" rootExtendsClass="org.eclipse.emf.internal.cdo.CDOObjectImpl"
+    reflectiveDelegation="true" importerID="org.eclipse.emf.importer.cdo" featureDelegation="Reflective"
+    complianceLevel="7.0" copyrightFields="false" operationReflection="true" importOrganizing="true">
+  <foreignModel>DFN.ecore</foreignModel>
+  <modelPluginVariables>CDO=org.eclipse.emf.cdo</modelPluginVariables>
+  <genPackages prefix="DFN" disposableProviderFactory="true" ecorePackage="DFN.ecore#/">
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="DFN.ecore#//RelationalSymbols">
+      <genEnumLiterals ecoreEnumLiteral="DFN.ecore#//RelationalSymbols/MoreThan"/>
+      <genEnumLiterals ecoreEnumLiteral="DFN.ecore#//RelationalSymbols/MoreOrEquals"/>
+      <genEnumLiterals ecoreEnumLiteral="DFN.ecore#//RelationalSymbols/LesserThan"/>
+      <genEnumLiterals ecoreEnumLiteral="DFN.ecore#//RelationalSymbols/LesserOrEquals"/>
+    </genEnums>
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="DFN.ecore#//CommProtocol">
+      <genEnumLiterals ecoreEnumLiteral="DFN.ecore#//CommProtocol/MQTT"/>
+      <genEnumLiterals ecoreEnumLiteral="DFN.ecore#//CommProtocol/JMS"/>
+    </genEnums>
+    <genClasses ecoreClass="DFN.ecore#//DataFlowNetwork">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference DFN.ecore#//DataFlowNetwork/nodes"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference DFN.ecore#//DataFlowNetwork/channels"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference DFN.ecore#//DataFlowNetwork/tokens"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference DFN.ecore#//DataFlowNetwork/ownedDFNs"/>
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference DFN.ecore#//DataFlowNetwork/network"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference DFN.ecore#//DataFlowNetwork/apps"/>
+    </genClasses>
+    <genClasses ecoreClass="DFN.ecore#//Node">
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference DFN.ecore#//Node/network"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference DFN.ecore#//Node/states"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference DFN.ecore#//Node/initialState"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference DFN.ecore#//Node/tokens"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference DFN.ecore#//Node/transitions"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference DFN.ecore#//Node/mappings"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference DFN.ecore#//Node/app"/>
+    </genClasses>
+    <genClasses ecoreClass="DFN.ecore#//Channel">
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference DFN.ecore#//Channel/network"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference DFN.ecore#//Channel/target"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference DFN.ecore#//Channel/source"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference DFN.ecore#//Channel/token"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute DFN.ecore#//Channel/protocol"/>
+    </genClasses>
+    <genClasses ecoreClass="DFN.ecore#//State">
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference DFN.ecore#//State/node"/>
+    </genClasses>
+    <genClasses ecoreClass="DFN.ecore#//StringToken">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference DFN.ecore#//StringToken/literals"/>
+    </genClasses>
+    <genClasses ecoreClass="DFN.ecore#//Transition">
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference DFN.ecore#//Transition/node"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute DFN.ecore#//Transition/priority"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference DFN.ecore#//Transition/in"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference DFN.ecore#//Transition/out"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference DFN.ecore#//Transition/sourcestate"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference DFN.ecore#//Transition/targetstate"/>
+    </genClasses>
+    <genClasses ecoreClass="DFN.ecore#//Mapping">
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference DFN.ecore#//Mapping/node"/>
+    </genClasses>
+    <genClasses ecoreClass="DFN.ecore#//NamedElement">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute DFN.ecore#//NamedElement/Name"/>
+    </genClasses>
+    <genClasses ecoreClass="DFN.ecore#//InMapping"/>
+    <genClasses ecoreClass="DFN.ecore#//OutMapping"/>
+    <genClasses ecoreClass="DFN.ecore#//Equation">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference DFN.ecore#//Equation/port"/>
+    </genClasses>
+    <genClasses ecoreClass="DFN.ecore#//Inequality">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference DFN.ecore#//Inequality/port"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute DFN.ecore#//Inequality/kind"/>
+    </genClasses>
+    <genClasses ecoreClass="DFN.ecore#//IntToken"/>
+    <genClasses ecoreClass="DFN.ecore#//StringTokenLiteral">
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference DFN.ecore#//StringTokenLiteral/stringtoken"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute DFN.ecore#//StringTokenLiteral/value"/>
+    </genClasses>
+    <genClasses ecoreClass="DFN.ecore#//EndPoint">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference DFN.ecore#//EndPoint/ports"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="DFN.ecore#//Port">
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference DFN.ecore#//Port/endpoint"/>
+    </genClasses>
+    <genClasses ecoreClass="DFN.ecore#//InPort">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference DFN.ecore#//InPort/in"/>
+    </genClasses>
+    <genClasses ecoreClass="DFN.ecore#//OutPort">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference DFN.ecore#//OutPort/out"/>
+    </genClasses>
+    <genClasses ecoreClass="DFN.ecore#//Token">
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference DFN.ecore#//Token/network"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference DFN.ecore#//Token/nodes"/>
+    </genClasses>
+    <genClasses ecoreClass="DFN.ecore#//StringEquation">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference DFN.ecore#//StringEquation/Literal"/>
+    </genClasses>
+    <genClasses ecoreClass="DFN.ecore#//IntEquation"/>
+    <genClasses image="false" ecoreClass="DFN.ecore#//IntegerMapping">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute DFN.ecore#//IntegerMapping/value"/>
+    </genClasses>
+    <genClasses ecoreClass="DFN.ecore#//Application">
+      <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference DFN.ecore#//Application/network"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference DFN.ecore#//Application/nodes"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute DFN.ecore#//Application/IP"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute DFN.ecore#//Application/port"/>
+    </genClasses>
+    <genClasses ecoreClass="DFN.ecore#//InOutPort"/>
+  </genPackages>
+</genmodel:GenModel>

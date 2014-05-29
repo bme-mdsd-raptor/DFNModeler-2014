@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.commands">
+      <command
+            id="hu.bme.mit.inf.MDSD.DFNModeler.graphgeneratebutton.yEd"
+            name="Generate yEd Graph">
+      </command>
+      <command
+            id="hu.bme.mit.inf.MDSD.DFNModeler.graphgeneratebutton.not_yEd"
+            name="Generate Standard Graphml">
+      </command>
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            allPopups="false"
+            locationURI="toolbar:org.eclipse.ui.main.toolbar?after=additions">
+         <toolbar
+               id="hu.bme.mit.inf.mdsd.raptortoolbar">
+            <command
+                  commandId="hu.bme.mit.inf.MDSD.DFNModeler.graphgeneratebutton.yEd"
+                  disabledIcon="icons/yed_gen_button_d.png"
+                  icon="icons/yed_gen_button.png"
+                  label="Generate yEd Graph"
+                  mode="FORCE_TEXT"
+                  style="push">
+            </command>
+            <command
+                  commandId="hu.bme.mit.inf.MDSD.DFNModeler.graphgeneratebutton.not_yEd"
+                  disabledIcon="icons/graphml_gen_button_d.png"
+                  icon="icons/graphml_gen_button.png"
+                  label="Generate Standard Graphml"
+                  mode="FORCE_TEXT"
+                  style="push">
+            </command>
+         </toolbar>
+      </menuContribution>
+   </extension>
+   <!-- This is an extension of "org.eclipse.ui.handlers". -->
+   <extension
+         point="org.eclipse.ui.handlers">
+      <!-- If a command named "hu.bme.mit.JPADataCompileButton.GenerateCommand"
+           fires then call the execute method of the class named
+           "hu.bme.mit.JPADataCompileButton.GenerateCommand".-->
+      <handler
+            class="hu.bme.mit.inf.MDSD.compilecommandhandler.GraphGenerateCommandHandler"
+            commandId="hu.bme.mit.inf.MDSD.DFNModeler.graphgeneratebutton.yEd">
+      </handler>
+      <handler
+            class="hu.bme.mit.inf.MDSD.compilecommandhandler.GraphGenerateCommandHandler"
+            commandId="hu.bme.mit.inf.MDSD.DFNModeler.graphgeneratebutton.not_yEd">
+      </handler>
+   </extension>
+
+</plugin>

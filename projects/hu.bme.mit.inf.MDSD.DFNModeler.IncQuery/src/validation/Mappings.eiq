@@ -1,0 +1,177 @@
+package validation
+
+
+import "http://DFN/1.0"
+
+
+pattern getEquationPort(E : Equation) {
+	Equation.port(E, _P);
+}
+pattern getInequalityPort(E : Inequality) {
+	Inequality.port(E, _P);
+	}
+pattern stringTypeConflictIn(E : StringEquation) {
+	StringEquation.port(E,P);
+	find sourcePort(C,P);
+	Channel.token(C,T);
+	StringToken(T);
+}
+pattern stringTypeConflictOut(E : StringEquation) {
+	StringEquation.port(E,P);
+	find targetPort(C,P);
+	Channel.token(C,T);
+	StringToken(T);
+}
+
+pattern intTypeConflictIn(E : IntEquation) {
+	IntEquation.port(E,P);
+	find sourcePort(C,P);
+	Channel.token(C,T);
+	IntToken(T);
+}
+pattern intTypeConflictOut(E : IntEquation) {
+	IntEquation.port(E,P);
+	find targetPort(C,P);
+	Channel.token(C,T);
+	IntToken(T);
+}
+pattern intTypeConflictIneqality(E : Inequality) {
+	Inequality.port(E,P);
+	find targetPort(C,P);
+	Channel.token(C,T);
+	IntToken(T);
+}
+pattern getliterals(T : StringToken, L : StringTokenLiteral) {
+	StringToken.literals(T,L);
+}
+
+
+
+@Constraint(
+	location = E,
+	message = "The Equation $E.Name$ has no Port defined.",
+	severity = "error"
+)
+pattern noEquationPort(E : Equation) {
+	neg find getEquationPort(E);
+}
+
+@Constraint(
+	location = E,
+	message = "The Inequality $E.Name$ has no Port defined.",
+	severity = "error"
+)
+pattern noInequalitynPort(E : Inequality) {
+	neg find getInequalityPort(E);
+}
+
+@Constraint(
+	location = E,
+	message = "The String Equation $E.Name$ refers to input port $P.Name$ that does not contain a String Token.",
+	severity = "error"
+)
+pattern typeConflictInStringEquation(E : StringEquation, P : Port) {
+	StringEquation.port(E,P);
+	InPort(P);
+	neg find stringTypeConflictOut(E);
+}
+
+@Constraint(
+	location = E,
+	message = "The String Equation $E.Name$ refers to output port $P.Name$ that does not contain a String Token.",
+	severity = "error"
+)
+pattern typeConflictOutStringEquation(E : StringEquation , P : Port)  {
+	StringEquation.port(E,P);
+	OutPort(P);
+	neg find stringTypeConflictIn(E);
+	
+}
+
+
+@Constraint(
+	location = E,
+	message = "The Int Equation $E.Name$ refers to input port $P.Name$ that does not contain an Int Token.",
+	severity = "error"
+)
+pattern typeConflictInIntEquation(E : IntEquation, P : Port) {
+	IntEquation.port(E,P);
+	InPort(P);
+	neg find intTypeConflictOut(E);
+}
+
+@Constraint(
+	location = E,
+	message = "The Int Equation $E.Name$ refers to output port $P.Name$ that does not contain an Int Token.",
+	severity = "error"
+)
+pattern typeConflictOutIntEquation(E : IntEquation , P : Port)  {
+	IntEquation.port(E,P);
+	OutPort(P);
+	neg find intTypeConflictIn(E);
+	
+}
+
+@Constraint(
+	location = E,
+	message = "The Inequality $E.Name$ refers to input port $P.Name$ that does not contain an Int Token.",
+	severity = "error"
+)
+pattern typeConflictInInequaility(E : Inequality, P : Port) {
+	Inequality.port(E,P);
+	InPort(P);
+	neg find intTypeConflictIneqality(E);
+}
+
+@Constraint(
+	location = E,
+	message = "The Inequality $E.Name$ uses the port $P.Name$ that belongs to an other node.",
+	severity = "error"
+)
+pattern externalPortsUsedInequality(E : Inequality, P : Port) {
+	Inequality.port(E,P);
+	InPort.endpoint(P,N);
+	Inequality.node(E,N1);
+	N1 != N;
+}
+
+@Constraint(
+	location = E,
+	message = "The Equation $E.Name$ uses the port $P.Name$ that belongs to an other node.",
+	severity = "error"
+)
+pattern externalPortsUsedEquation(E : Equation, P : Port) {
+	Equation.port(E,P);
+	InPort.endpoint(P,N);
+	Equation.node(E,N1);
+	N1 != N;
+}
+
+@Constraint(
+	location = E,
+	message = "The String Equation $E.Name$ refers to the String Token $T.Name$ on which, $L.value$ is not a valid Literal.",
+	severity = "error"
+)
+pattern illegalLiteralsInPort(E : StringEquation,T : StringToken, L : StringTokenLiteral) {
+
+	StringEquation.port(E,P);
+	find targetPort(C,P);
+	Channel.token(C,T);
+
+	neg find getliterals(T,L);
+	StringEquation.Literal(E,L);
+	
+} or {
+
+	StringEquation.port(E,P);
+	find sourcePort(C,P);
+	Channel.token(C,T);
+
+	neg find getliterals(T,L);
+	StringEquation.Literal(E,L);
+	
+}
+
+
+
+

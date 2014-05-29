@@ -1,0 +1,136 @@
+package validation
+
+import "http://DFN/1.0"
+
+
+
+//Helper patterns
+pattern getName(n : NamedElement) {
+	NamedElement.Name(n,_name);
+}
+
+pattern validName(N){
+	NamedElement.Name(N,name);
+	check((name).matches("\\w*"));
+}
+
+pattern statesOfNode(N : Node, S : State) {
+	Node.states(N,S);
+}
+pattern initstate(N : Node, S : State) {
+	Node.initialState(N,S);
+}
+pattern getNodeTokens(N : Node, T : Token) {
+	Node.tokens(N,T);
+}
+pattern getNodeChannels(N: Node, C : Channel) {
+	Node.ports(N,P);
+	Channel.target(C,P);
+} or {
+	Node.ports(N,P);
+	Channel.source(C,P);
+}
+pattern getChannelToken(C : Channel, T : Token) {
+	Channel.token(C,T);
+}
+pattern tokensOnNodesAndChannels(N : Node, T: Token) {
+	find getNodeTokens(N,T);
+	find getNodeChannels(N,C);
+	find getChannelToken(C,T);
+}
+
+
+pattern inputPort(N : Node) {
+	Node.ports(N,P);
+	InPort(P);
+}
+
+pattern outputPort(N : Node) {
+	Node.ports(N,P);
+	OutPort(P);
+}
+
+pattern getApp(N : Node, A : Application) {
+	
+	Node.app(N,A);
+}
+
+pattern getDfnChannels(D : DataFlowNetwork, C : Channel) {
+	DataFlowNetwork.ports(D,P);
+	Channel.target(C,P);
+} or {
+	DataFlowNetwork.ports(D,P);
+	Channel.source(C,P);
+}
+
+pattern sourcePort(C : Channel, P: Port) {
+	Channel.source(C,P);
+}
+pattern targetPort(C : Channel, P: Port) {
+	Channel.target(C,P);
+}
+pattern channelToken(C : Channel, T: Token) {
+	Channel.token(C,T);
+}
+pattern usedPort(P : Port) {
+	Equation.port(_E, P);
+}or{
+	Inequality.port(_E, P);
+}
+pattern outPortOut(P:OutPort){
+	OutPort.out(P,_C);
+}
+pattern inPortIn(P:InPort){
+	InPort.in(P,_C);
+}
+pattern sourceState(T : Transition) {
+	Transition.sourcestate(T,_S);
+}
+pattern targetState(T : Transition) {
+	Transition.targetstate(T,_S);
+}
+pattern statesInSameNode(T : Transition) {
+	Transition.sourcestate.node(T,N);
+	Transition.targetstate.node(T,N);
+}
+pattern transInmapping(T: Transition, I : InMapping){
+	Transition.in(T,I);
+}
+pattern transOutmapping(T: Transition, I : OutMapping){
+	Transition.out(T,I);
+}
+pattern getEquationPort(E : Equation) {
+	Equation.port(E, _P);
+}
+pattern getInequalityPort(E : Inequality) {
+	Inequality.port(E, _P);
+}
+
+//Named Element
+
+@Constraint(
+	location = N,
+	message = "This Element has no Name attribute specified",
+	severity = "error"
+)
+pattern NameIsNull(N){
+	NamedElement.Name(N,name);
+	name == "";
+} or {
+	NamedElement(N);
+	neg find getName(N);
+}
+
+@Constraint(
+	location = N,
+	message = "The Element $N.Name$'s name does not meet the required naming conventions. Please use only a-z, A-Z and 0-9",
+	severity = "error"
+)
+pattern InvalidName(N : NamedElement){
+	neg find validName(N);
+}
+
+
+
+
+

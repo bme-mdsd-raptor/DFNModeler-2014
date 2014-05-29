@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<plugin>
+
+   
+   
+   
+   
+   
+   
+   
+   <extension id="validation.constraint.validation.noEquationPort" point="org.eclipse.incquery.validation.runtime.constraint">
+    <constraint class="validation.NoEquationPortConstraint0" name="validation.noEquationPort">
+      <enabledForEditor editorId="DFN.presentation.DFNEditorID"/>
+    </constraint>
+  </extension>
+   <extension id="validation.constraint.validation.noInequalitynPort" point="org.eclipse.incquery.validation.runtime.constraint">
+    <constraint class="validation.NoInequalitynPortConstraint0" name="validation.noInequalitynPort">
+      <enabledForEditor editorId="DFN.presentation.DFNEditorID"/>
+    </constraint>
+  </extension>
+   <extension id="validation.constraint.validation.typeConflictInStringEquation" point="org.eclipse.incquery.validation.runtime.constraint">
+    <constraint class="validation.TypeConflictInStringEquationConstraint0" name="validation.typeConflictInStringEquation">
+      <enabledForEditor editorId="DFN.presentation.DFNEditorID"/>
+    </constraint>
+  </extension>
+   <extension id="validation.constraint.validation.typeConflictOutStringEquation" point="org.eclipse.incquery.validation.runtime.constraint">
+    <constraint class="validation.TypeConflictOutStringEquationConstraint0" name="validation.typeConflictOutStringEquation">
+      <enabledForEditor editorId="DFN.presentation.DFNEditorID"/>
+    </constraint>
+  </extension>
+   <extension id="validation.constraint.validation.typeConflictInIntEquation" point="org.eclipse.incquery.validation.runtime.constraint">
+    <constraint class="validation.TypeConflictInIntEquationConstraint0" name="validation.typeConflictInIntEquation">
+      <enabledForEditor editorId="DFN.presentation.DFNEditorID"/>
+    </constraint>
+  </extension>
+   <extension id="validation.constraint.validation.typeConflictOutIntEquation" point="org.eclipse.incquery.validation.runtime.constraint">
+    <constraint class="validation.TypeConflictOutIntEquationConstraint0" name="validation.typeConflictOutIntEquation">
+      <enabledForEditor editorId="DFN.presentation.DFNEditorID"/>
+    </constraint>
+  </extension>
+   <extension id="validation.constraint.validation.typeConflictInInequaility" point="org.eclipse.incquery.validation.runtime.constraint">
+    <constraint class="validation.TypeConflictInInequailityConstraint0" name="validation.typeConflictInInequaility">
+      <enabledForEditor editorId="DFN.presentation.DFNEditorID"/>
+    </constraint>
+  </extension>
+   <extension id="validation.constraint.validation.externalPortsUsedInequality" point="org.eclipse.incquery.validation.runtime.constraint">
+    <constraint class="validation.ExternalPortsUsedInequalityConstraint0" name="validation.externalPortsUsedInequality">
+      <enabledForEditor editorId="DFN.presentation.DFNEditorID"/>
+    </constraint>
+  </extension>
+   <extension id="validation.constraint.validation.externalPortsUsedEquation" point="org.eclipse.incquery.validation.runtime.constraint">
+    <constraint class="validation.ExternalPortsUsedEquationConstraint0" name="validation.externalPortsUsedEquation">
+      <enabledForEditor editorId="DFN.presentation.DFNEditorID"/>
+    </constraint>
+  </extension>
+   <extension id="validation.constraint.validation.illegalLiteralsInPort" point="org.eclipse.incquery.validation.runtime.constraint">
+    <constraint class="validation.IllegalLiteralsInPortConstraint0" name="validation.illegalLiteralsInPort">
+      <enabledForEditor editorId="DFN.presentation.DFNEditorID"/>
+    </constraint>
+  </extension>
+   <extension id="validation.constraint.validation.NameIsNull" point="org.eclipse.incquery.validation.runtime.constraint">
+    <constraint class="validation.NameIsNullConstraint0" name="validation.NameIsNull">
+      <enabledForEditor editorId="DFN.presentation.DFNEditorID"/>
+    </constraint>
+  </extension>
+   <extension id="validation.constraint.validation.InvalidName" point="org.eclipse.incquery.validation.runtime.constraint">
+    <constraint class="validation.InvalidNameConstraint0" name="validation.InvalidName">
+      <enabledForEditor editorId="DFN.presentation.DFNEditorID"/>
+    </constraint>
+  </extension>
+   <extension id="validation.constraint.validation.noInitState" point="org.eclipse.incquery.validation.runtime.constraint">
+    <constraint class="validation.NoInitStateConstraint0" name="validation.noInitState">
+      <enabledForEditor editorId="DFN.presentation.DFNEditorID"/>
+    </constraint>
+  </extension>
+   <extension id="validation.constraint.validation.initStateValid" point="org.eclipse.incquery.validation.runtime.constraint">
+    <constraint class="validation.InitStateValidConstraint0" name="validation.initStateValid">
+      <enabledForEditor editorId="DFN.presentation.DFNEditorID"/>
+    </constraint>
+  </extension>
+   <extension id="validation.constraint.validation.unnecessaryTokensOnNode" point="org.eclipse.incquery.validation.runtime.constraint">
+    <constraint class="validation.UnnecessaryTokensOnNodeConstraint0" name="validation.unnecessaryTokensOnNode">
+      <enabledForEditor editorId="DFN.presentation.DFNEditorID"/>
+    </constraint>
+  </extension>
+   <extension id="validation.constraint.validation.missingTokensOnNode" point="org.eclipse.incquery.validation.runtime.constraint">
+    <constraint class="validation.MissingTokensOnNodeConstraint0" name="validation.missingTokensOnNode">
+      <enabledForEditor editorId="DFN.presentation.DFNEditorID"/>
+    </constraint>
+  </extension>
+   <extension id="validation.constraint.validation.noInputPort" point="org.eclipse.incquery.validation.runtime.constraint">
+    <constraint class="validation.NoInputPortConstraint0" name="validation.noInputPort">
+      <enabledForEditor editorId="DFN.presentation.DFNEditorID"/>
+    </constraint>
+  </extension>
+   <extension id="validation.constraint.validation.noOutPort" point="org.eclipse.incquery.validation.runtime.constraint">
+    <constraint class="validation.NoOutPortConstraint0" name="validation.noOutPort">
+      <enabledForEditor editorId="DFN.presentation.DFNEditorID"/>
+    </constraint>
+  </extension>
+   <extension id="validation.constraint.validation.noApp" point="org.eclipse.incquery.validation.runtime.constraint">
+    <constraint class="validation.NoAppConstraint0" name="validation.noApp">
+      <enabledForEditor editorId="DFN.presentation.DFNEditorID"/>
+    </constraint>
+  </extension>
+   <extension id="validation.constraint.validation.notTheSameDFNSameApp" point="org.eclipse.incquery.validation.runtime.constraint">
+    <constraint class="validation.NotTheSameDFNSameAppConstraint0" name="validation.notTheSameDFNSameApp">
+      <enabledForEditor editorId="DFN.presentation.DFNEditorID"/>
+    </constraint>
+  </extension>
+   <extension id="validation.constraint.validation.noSourceState" point="org.eclipse.incquery.validation.runtime.constraint">
+    <constraint class="validation.NoSourceStateConstraint0" name="validation.noSourceState">
+      <enabledForEditor editorId="DFN.presentation.DFNEditorID"/>
+    </constraint>
+  </extension>
+   <extension id="validation.constraint.validation.noTargetState" point="org.eclipse.incquery.validation.runtime.constraint">
+    <constraint class="validation.NoTargetStateConstraint0" name="validation.noTargetState">
+      <enabledForEditor editorId="DFN.presentation.DFNEditorID"/>
+    </constraint>
+  </extension>
+   <extension id="validation.constraint.validation.transStatesInDiffNode" point="org.eclipse.incquery.validation.runtime.constraint">
+    <constraint class="validation.TransStatesInDiffNodeConstraint0" name="validation.transStatesInDiffNode">
+      <enabledForEditor editorId="DFN.presentation.DFNEditorID"/>
+    </constraint>
+  </extension>
+   <extension id="validation.constraint.validation.noTransInmapping" point="org.eclipse.incquery.validation.runtime.constraint">
+    <constraint class="validation.NoTransInmappingConstraint0" name="validation.noTransInmapping">
+      <enabledForEditor editorId="DFN.presentation.DFNEditorID"/>
+    </constraint>
+  </extension>
+   <extension id="validation.constraint.validation.noEqualPriorityOnSameState" point="org.eclipse.incquery.validation.runtime.constraint">
+    <constraint class="validation.NoEqualPriorityOnSameStateConstraint0" name="validation.noEqualPriorityOnSameState">
+      <enabledForEditor editorId="DFN.presentation.DFNEditorID"/>
+    </constraint>
+  </extension>
+   <extension id="validation.constraint.validation.noMappingsFromDiffNodes" point="org.eclipse.incquery.validation.runtime.constraint">
+    <constraint class="validation.NoMappingsFromDiffNodesConstraint0" name="validation.noMappingsFromDiffNodes">
+      <enabledForEditor editorId="DFN.presentation.DFNEditorID"/>
+    </constraint>
+  </extension>
+   <extension id="validation.constraint.validation.noDuplicateInPorts" point="org.eclipse.incquery.validation.runtime.constraint">
+    <constraint class="validation.NoDuplicateInPortsConstraint0" name="validation.noDuplicateInPorts">
+      <enabledForEditor editorId="DFN.presentation.DFNEditorID"/>
+    </constraint>
+  </extension>
+   <extension id="validation.constraint.validation.noDuplicateOutPorts" point="org.eclipse.incquery.validation.runtime.constraint">
+    <constraint class="validation.NoDuplicateOutPortsConstraint0" name="validation.noDuplicateOutPorts">
+      <enabledForEditor editorId="DFN.presentation.DFNEditorID"/>
+    </constraint>
+  </extension>
+   <extension id="validation.constraint.validation.noSourcePort" point="org.eclipse.incquery.validation.runtime.constraint">
+    <constraint class="validation.NoSourcePortConstraint0" name="validation.noSourcePort">
+      <enabledForEditor editorId="DFN.presentation.DFNEditorID"/>
+    </constraint>
+  </extension>
+   <extension id="validation.constraint.validation.noTargetPort" point="org.eclipse.incquery.validation.runtime.constraint">
+    <constraint class="validation.NoTargetPortConstraint0" name="validation.noTargetPort">
+      <enabledForEditor editorId="DFN.presentation.DFNEditorID"/>
+    </constraint>
+  </extension>
+   <extension id="validation.constraint.validation.noToken" point="org.eclipse.incquery.validation.runtime.constraint">
+    <constraint class="validation.NoTokenConstraint0" name="validation.noToken">
+      <enabledForEditor editorId="DFN.presentation.DFNEditorID"/>
+    </constraint>
+  </extension>
+   <extension id="validation.constraint.validation.loopNodeChannel" point="org.eclipse.incquery.validation.runtime.constraint">
+    <constraint class="validation.LoopNodeChannelConstraint0" name="validation.loopNodeChannel">
+      <enabledForEditor editorId="DFN.presentation.DFNEditorID"/>
+    </constraint>
+  </extension>
+   <extension id="validation.constraint.validation.dfnLoop" point="org.eclipse.incquery.validation.runtime.constraint">
+    <constraint class="validation.DfnLoopConstraint0" name="validation.dfnLoop">
+      <enabledForEditor editorId="DFN.presentation.DFNEditorID"/>
+    </constraint>
+  </extension>
+
+<extension id="validation.constraint.validation.noPortOut" point="org.eclipse.incquery.validation.runtime.constraint">
+    <constraint class="validation.NoPortOutConstraint0" name="validation.noPortOut">
+      <enabledForEditor editorId="DFN.presentation.DFNEditorID"/>
+    </constraint>
+  </extension>
+  <extension id="validation.constraint.validation.noPortOutDFN" point="org.eclipse.incquery.validation.runtime.constraint">
+    <constraint class="validation.NoPortOutDFNConstraint0" name="validation.noPortOutDFN">
+      <enabledForEditor editorId="DFN.presentation.DFNEditorID"/>
+    </constraint>
+  </extension>
+  <extension id="validation.constraint.validation.noPortInDFN" point="org.eclipse.incquery.validation.runtime.constraint">
+    <constraint class="validation.NoPortInDFNConstraint0" name="validation.noPortInDFN">
+      <enabledForEditor editorId="DFN.presentation.DFNEditorID"/>
+    </constraint>
+  </extension>
+  <extension id="validation.constraint.validation.noPortIn" point="org.eclipse.incquery.validation.runtime.constraint">
+    <constraint class="validation.NoPortInConstraint0" name="validation.noPortIn">
+      <enabledForEditor editorId="DFN.presentation.DFNEditorID"/>
+    </constraint>
+  </extension>
+  <extension id="validation.constraint.validation.unUsedPort" point="org.eclipse.incquery.validation.runtime.constraint">
+    <constraint class="validation.UnUsedPortConstraint0" name="validation.unUsedPort">
+      <enabledForEditor editorId="DFN.presentation.DFNEditorID"/>
+    </constraint>
+  </extension>
+<extension id="validation.constraint.validation.notSameProtocol" point="org.eclipse.incquery.validation.runtime.constraint">
+    <constraint class="validation.NotSameProtocolConstraint0" name="validation.notSameProtocol">
+      <enabledForEditor editorId="DFN.presentation.DFNEditorID"/>
+    </constraint>
+  </extension>
+  <extension id="validation.constraint.validation.noProtocol" point="org.eclipse.incquery.validation.runtime.constraint">
+    <constraint class="validation.NoProtocolConstraint0" name="validation.noProtocol">
+      <enabledForEditor editorId="DFN.presentation.DFNEditorID"/>
+    </constraint>
+  </extension>
+</plugin>
