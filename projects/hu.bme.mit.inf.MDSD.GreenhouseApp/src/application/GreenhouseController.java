@@ -21,7 +21,8 @@ import controller.GreenhouseDFNController;
 import controller.GreenhouseDFNController.HeatingNodeState;
 import controller.GreenhouseDFNController.LightingNodeState;
 
-public class GreenhouseController implements Observer, Initializable, AutoCloseable {
+public class GreenhouseController implements Observer, Initializable,
+		AutoCloseable {
 
 	GreenhouseDFNController gdfn;
 
@@ -105,8 +106,8 @@ public class GreenhouseController implements Observer, Initializable, AutoClosea
 				+ (int) (sWaterTemp.getValue()));
 		sWaterTemp.setValue((int) (sWaterTemp.getValue()));
 
-		gdfn.getAquariumDFNController().setInputOnAquariumTempInInPort(
-				new WaterTempToken((int) sWaterTemp.getValue()));
+		gdfn.setInputOnHouseAtWaterTempSensorInPort(new WaterTempToken(
+				(int) sWaterTemp.getValue()));
 	}
 
 	@Override
@@ -120,26 +121,24 @@ public class GreenhouseController implements Observer, Initializable, AutoClosea
 		gdfn.addObserver(this);
 		gdfn.getAquariumDFNController().addObserver(this);
 
-
 	}
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		gdfn.start();
-		gdfn.getAquariumDFNController().start();
 		gdfn.setInputOnHouseAtLightSensorInPort(DayPhaseToken.DayPhaseDay);
 		gdfn.setInputOnHouseAtTempSensorInPort(new TemperatureToken(21));
 		gdfn.getAquariumDFNController().setInputOnAquariumTempInInPort(
 				new WaterTempToken(28));
+		gdfn.queryStates();
 
 	}
 
 	@Override
 	public void close() {
-		gdfn.close();
-		
-	}
-	
 
+		gdfn.close();
+
+	}
 
 }

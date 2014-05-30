@@ -9,6 +9,7 @@ import DFN.NamedElement
 import DFN.OutPort
 import hu.bme.mit.inf.MDSD.DFNModeler.sourcegenerator.abstracttemplates.EndPointSourceGenerator
 import hu.bme.mit.inf.MDSD.DFNModeler.sourcegenerator.helper.GeneratorHelper
+import hu.bme.mit.inf.MDSD.DFNModeler.sourcegenerator.snippets.NetworkSnippets
 import java.util.ArrayList
 import java.util.Collection
 
@@ -17,15 +18,15 @@ import java.util.Collection
  */
 class DFNControllerSourceGenerator extends EndPointSourceGenerator {
 
-	new(NamedElement element, String projectName) {
-		super(element, projectName)
+	new(NamedElement element, String projectName, NetworkSnippets protocol) {
+		super(element, projectName, protocol)
 	}
 
 	override void generateSources() {
 		var list = new ArrayList<String>();
 		list.add(projectName);
 		GeneratorHelper::createJava2File(projectName + "Controller", list, "controller",
-			sourceElement.generatedName + "Controller.java", true, compile)
+			sourceElement.generatedName + "Controller.java", true, compile, network)
 
 	}
 	
@@ -54,6 +55,10 @@ class DFNControllerSourceGenerator extends EndPointSourceGenerator {
 	
 		«network.compileControllerCommunicatorCode(element.nodes, element, element.getInPorts, imps)»
 		
+		public void queryStates()
+		{
+			sendMessage("«element.generatedName»«network.separator»StateRequest", "state");
+		}
 		
 		«FOR node : element.nodes»
 			public enum «node.generatedName»State{
@@ -77,11 +82,7 @@ class DFNControllerSourceGenerator extends EndPointSourceGenerator {
 		«compileEndPort(element)»
 		
 	'''
-
-
-
-
-
+	
 	override compileEndPort(EndPoint element) '''
 		«FOR port : element.ports»
 			«IF (port instanceof InPort)»
@@ -92,7 +93,7 @@ class DFNControllerSourceGenerator extends EndPointSourceGenerator {
 		«ENDFOR»
 	'''
 
-	override compileInPort(InPort port, EndPoint element) '''
+    override compileInPort(InPort port, EndPoint element) '''
 		
 			public void setInputOn«port.generatedName»(«port.channel.token.declarationName(imps)» token)
 			{				
@@ -103,11 +104,10 @@ class DFNControllerSourceGenerator extends EndPointSourceGenerator {
 	'''
 
 	override compileSendToken(OutPort port, EndPoint element) '''
-		
 		«IF (port.getOut().token instanceof IntToken)»
-			sendMessage("«port.getOut().target.endpoint.instanceName»/«port.getOut().target.generatedName»","" + token.getValue());
+			sendMessage("«network.compileTopicName(port.getOut().toPort)»","" + token.getValue());
 		«ELSE»
-			sendMessage("«port.getOut().target.endpoint.instanceName»/«port.getOut().target.generatedName»",token.name());
+			sendMessage("«network.compileTopicName(port.getOut().toPort)»",token.name());
 		«ENDIF»		
 	'''
 

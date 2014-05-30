@@ -1,5 +1,6 @@
 package hu.bme.mit.inf.MDSD.DFNModeler.sourcegenerator.helper;
 
+import hu.bme.mit.inf.MDSD.DFNModeler.sourcegenerator.snippets.NetworkSnippets;
 import hu.bme.mit.inf.MDSD.DFNModeler.sourcegenerator.templates.PomGenerator;
 
 import java.io.ByteArrayInputStream;
@@ -33,9 +34,6 @@ import org.eclipse.jdt.launching.JavaRuntime;
  */
 public class GeneratorHelper {
 
-	
-	
-		
 	/**
 	 * Creates a java file into the project that the parameter
 	 * <code>nextTo</code> is in. The file is placed into the folder named
@@ -67,11 +65,11 @@ public class GeneratorHelper {
 	 */
 	public static IFile createJava2File(String projectName,
 			Collection<String> projectDependencies, String namespace,
-			String name, Boolean derived, CharSequence content)
+			String name, Boolean derived, CharSequence content, NetworkSnippets network)
 			throws CoreException {
 		// Getting the project from the name described in the URI of the
 		// resource
-		IProject project = createProject(projectName, projectDependencies);
+		IProject project = createProject(projectName, projectDependencies, network);
 		// Getting the default source folder in the project called "src"
 		IFolder targetFolder = project.getFolder("src-gen");
 
@@ -164,7 +162,7 @@ public class GeneratorHelper {
 	}
 
 	public static IProject createProject(String name,
-			Collection<String> projectDependencies) throws CoreException {
+			Collection<String> projectDependencies, NetworkSnippets network) throws CoreException {
 		// Referring a project in the workspace by it's name
 		IProject project = ResourcesPlugin.getWorkspace().getRoot()
 				.getProject(name);
@@ -198,19 +196,20 @@ public class GeneratorHelper {
 			javaProject.setRawClasspath(
 					buildPath.toArray(new IClasspathEntry[buildPath.size()]),
 					project.getFullPath().append("bin"), null);
-			
-			
-			
+
 			IFolder targetFolder = project.getFolder("src-gen");
 
 			if (!targetFolder.exists()) {
 				targetFolder.create(IResource.NONE, true, null);
 			}
 
-			 createFile(targetFolder, "pom.xml", true, PomGenerator.compile(name));
-			
-
 		}
+		IFolder targetFolder = project.getFolder("src-gen");
+
+		if (!targetFolder.exists()) {
+			targetFolder.create(IResource.NONE, true, null);
+		}
+		createFile(targetFolder, "pom.xml", true, PomGenerator.compile(name, network));
 		return project;
 	}
 }

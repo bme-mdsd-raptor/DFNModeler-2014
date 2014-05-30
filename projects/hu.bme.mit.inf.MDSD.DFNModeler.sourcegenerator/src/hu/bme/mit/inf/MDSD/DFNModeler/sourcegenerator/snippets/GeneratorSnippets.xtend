@@ -46,7 +46,7 @@ abstract class GeneratorSnippets {
 		str.replaceAll("[^a-zA-Z0-9]", "")
 	}
 
-	def compileClass(NamedElement element,String packageName, String content, Collection<NamedElement> imps) '''	
+	def compileClass(NamedElement element, String packageName, String content, Collection<NamedElement> imps) '''	
 		package «packageName»;
 			
 		«compileImports(element, imps)»
@@ -109,28 +109,46 @@ abstract class GeneratorSnippets {
 		"" + element.stringtoken.generatedName + "." + element.value.sanitize;
 	}
 
-	def Node getTo(Channel c) {
-		var endpoint = c.target.endpoint
-		if (endpoint instanceof Node) {
-			return endpoint
-		}
+	def InPort getToPort(Channel c) {
 		var target = c.target
+		
 		if (target instanceof InOutPort) {
-			return getTo(target.out)
+			return getToPort(target.out)
 		}
-
-		return null;
+		return target
 
 	}
 
-	def Node getFrom(Channel c) {
-		var endpoint = c.source.endpoint
+	def OutPort getFromPort(Channel c) {
+		var source = c.source
+		if (source instanceof InOutPort) {
+			return getFromPort(source.in)
+		}
+		return source
+	}
+
+	def Node getTo(Channel c) {
+		var node = getToPort(c)
+		if (node == null) {
+			return null
+		}
+
+		var endpoint = node.endpoint
 		if (endpoint instanceof Node) {
 			return endpoint
 		}
-		var source = c.source
-		if (source instanceof InOutPort) {
-			return getTo(source.in)
+		return null;
+	}
+
+	def Node getFrom(Channel c) {
+		var node = getFromPort(c)
+		if (node == null) {
+			return null
+		}
+
+		var endpoint = node.endpoint
+		if (endpoint instanceof Node) {
+			return endpoint
 		}
 		return null;
 
@@ -168,6 +186,7 @@ abstract class GeneratorSnippets {
 		else if (port instanceof InPort)
 			return port.in
 	}
+
 	def getInPorts(EndPoint element) {
 		var list = new ArrayList<InPort>
 		for (port : element.ports)
@@ -176,4 +195,18 @@ abstract class GeneratorSnippets {
 					list.add(port)
 		list
 	}
+
+	def isCrossInPort(InPort port) {
+		if (port.channel.source != null && port.channel.target != null) {
+			if (port.channel.source.endpoint instanceof Node && port.channel.target.endpoint instanceof Node) {
+				if (port.channel.source.endpoint.app == port.channel.target.endpoint.app) {
+					return false
+				}
+			}
+		}
+
+		return true;
+	}
+	
+
 }

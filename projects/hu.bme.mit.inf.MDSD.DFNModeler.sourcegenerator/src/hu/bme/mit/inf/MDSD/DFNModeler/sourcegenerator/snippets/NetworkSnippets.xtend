@@ -7,7 +7,6 @@ import DFN.NamedElement
 import DFN.Node
 import java.util.HashSet
 import java.util.List
-import java.util.ArrayList
 
 /**
  * 
@@ -17,11 +16,15 @@ abstract class NetworkSnippets extends GeneratorSnippets {
 	protected String mqtturl = "tcp://localhost:1883";
 	protected int mqttqos = 2;
 
-	def CharSequence compileImports() 
+	def CharSequence compileImports()
+
+	def CharSequence compileImplements()
+
+	def CharSequence separator()
 	
-	def CharSequence compileImplements() 
-	
-	def CharSequence compileNetworkCode(NamedElement element)	
+
+	def CharSequence compileNetworkCode(NamedElement element)
+
 	def compileEndPointCommunicatorCode(List<Node> nodes, NamedElement element, List<InPort> ports,
 		HashSet<NamedElement> imps) '''
 		
@@ -33,9 +36,6 @@ abstract class NetworkSnippets extends GeneratorSnippets {
 			public void start() {	
 				thread = new Thread((Runnable)this);
 				thread.start();	
-				«FOR node : nodes»
-					«node.instanceName».start();
-				«ENDFOR»
 			}
 			
 			public void close()
@@ -53,6 +53,9 @@ abstract class NetworkSnippets extends GeneratorSnippets {
 		
 			
 			public void run() {	
+				«FOR node : nodes»
+					«node.instanceName».start();
+				«ENDFOR»
 				try{	
 					while(true)
 					{
@@ -66,19 +69,20 @@ abstract class NetworkSnippets extends GeneratorSnippets {
 			
 			public void parsemessages(String arg0, String arg1) {
 				«FOR port : ports»
-					if(arg0.equals("«port.channel.getTo.instanceName»/«port.channel.target.generatedName»"))
-					{
-						«IF (port.channel.token instanceof IntToken)»
-							setInputOn«port.generatedName»(new «port.channel.token.declarationName(imps)»(Integer.parseInt(arg1.toString())));		
-						«ELSE»
-							setInputOn«port.generatedName»(«port.channel.token.declarationName(imps)».valueOf(arg1.toString()));		
-						«ENDIF»
-					}
-					
+					«IF (isCrossInPort(port))»
+						if(arg0.equals("«compileTopicName(port.channel.toPort)»"))
+						{
+							«IF (port.channel.token instanceof IntToken)»
+								setInputOn«port.generatedName»(new «port.channel.token.declarationName(imps)»(Integer.parseInt(arg1.toString())));		
+							«ELSE»
+								setInputOn«port.generatedName»(«port.channel.token.declarationName(imps)».valueOf(arg1.toString()));		
+							«ENDIF»
+						}
+					«ENDIF»
 				«ENDFOR»	
 				
 				«IF (element instanceof Node)»
-					if(arg0.equals("«element.network.generatedName»/StateRequest"))
+					if(arg0.equals("«element.network.generatedName»«separator»StateRequest"))
 						{
 							PublishState();
 						}
@@ -90,7 +94,7 @@ abstract class NetworkSnippets extends GeneratorSnippets {
 			«IF (element instanceof Node)»
 				public void PublishState()
 				{
-					sendMessage("«element.network.generatedName»/«element.generatedName»",state.name());
+					sendMessage("«element.network.generatedName»«separator»«element.generatedName»",state.name());
 				}
 			«ENDIF»
 			
@@ -98,10 +102,12 @@ abstract class NetworkSnippets extends GeneratorSnippets {
 			public «element.generatedName»() {
 				connect("«element.hashCode()»");
 				«FOR port : ports»
-					subscribe("«port.channel.getTo.instanceName»/«port.channel.target.generatedName»");
+					«IF (isCrossInPort(port))»
+						subscribe("«compileTopicName(port.channel.toPort)»");
+					«ENDIF»	
 				«ENDFOR»
 				«IF (element instanceof Node)»
-					subscribe("«element.network.generatedName»/StateRequest");
+					subscribe("«element.network.generatedName»«separator»StateRequest");
 				«ENDIF»		
 			
 			}
@@ -111,7 +117,6 @@ abstract class NetworkSnippets extends GeneratorSnippets {
 			////////////////////////////////////////////////////////////////////////////////////////////////////
 			////////////////////////////////////////////////////////////////////////////////////////////////////
 	'''
-
 
 	def compileControllerCommunicatorCode(List<Node> nodes, NamedElement element, List<InPort> ports,
 		HashSet<NamedElement> imps) '''
@@ -156,9 +161,9 @@ abstract class NetworkSnippets extends GeneratorSnippets {
 			
 			public void parsemessages(String arg0, String arg1) {
 				«FOR node : nodes»
-					if(arg0.equals("«element.generatedName»/«node.generatedName»"))
+					if(arg0.equals("«element.generatedName»«separator»«node.generatedName»"))
 					{
-						System.out.println("«element.generatedName»/«node.generatedName» " + arg1);
+						System.out.println("«element.generatedName»«separator»«node.generatedName» " + arg1);
 						 «node.generatedName»state =  «node.generatedName»State.valueOf(arg1.toString());
 					}
 					
@@ -170,7 +175,7 @@ abstract class NetworkSnippets extends GeneratorSnippets {
 			public «element.generatedName»Controller() {
 				connect("C«element.hashCode()»");
 				«FOR node : nodes»
-					subscribe("«element.generatedName»/«node.generatedName»");
+					subscribe("«element.generatedName»«separator»«node.generatedName»");
 				«ENDFOR»	
 			
 			}
@@ -178,8 +183,14 @@ abstract class NetworkSnippets extends GeneratorSnippets {
 			////////////////////////////////////////////////////////////////////////////////////////////////////
 			////////////////////////////////////////////////////////////////////////////////////////////////////
 	'''
-	
 
+	def CharSequence compilePomXML()
+	
+	def compileTopicName(InPort port)
+	{
+		if  (port.endpoint instanceof Node)
+		{
+			return (port.endpoint as Node).network.instanceName + separator + port.endpoint.instanceName + separator + port.generatedName
+		}
+	}
 }
-	
-

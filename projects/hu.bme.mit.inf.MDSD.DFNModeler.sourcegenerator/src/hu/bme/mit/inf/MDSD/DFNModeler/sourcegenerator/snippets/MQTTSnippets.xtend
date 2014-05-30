@@ -23,6 +23,9 @@ class MQTTSnippets extends NetworkSnippets {
 		return " extends Observable implements MqttCallback, AutoCloseable, Runnable"
 	}
 
+	override separator() {
+		return "/";
+	}
 	override compileNetworkCode(NamedElement element) '''
 				
 			////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -67,11 +70,6 @@ class MQTTSnippets extends NetworkSnippets {
 				
 			}
 			
-			public void queryStates()
-			{
-				sendMessage("«element.generatedName»/StateRequest", "state");
-			}
-			
 			
 			public void connect(String clientname) {
 				try {
@@ -94,5 +92,26 @@ class MQTTSnippets extends NetworkSnippets {
 			}
 						
 	'''
+	
+	override compilePomXML() '''	
+		<repositories>
+			<repository>
+				<id>paho-mqtt-client</id>
+				<name>Paho MQTT Client</name>
+				<url>https://repo.eclipse.org/content/repositories/paho-releases/</url>
+			</repository>
+		</repositories>
+		<dependencies>
+			<dependency>
+				<groupId>org.eclipse.paho</groupId>
+				<artifactId>mqtt-client</artifactId>
+				<packaging>jar</packaging>
+				<version>0.4.0</version>
+			</dependency>
+		</dependencies>
+	'''
+	
+
+	
 }
 	

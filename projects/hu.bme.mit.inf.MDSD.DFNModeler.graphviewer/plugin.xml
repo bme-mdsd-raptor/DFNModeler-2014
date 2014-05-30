@@ -5,11 +5,11 @@
    <extension
          point="org.eclipse.ui.views">
       <category
-            name="Sample Category"
+            name="DFN Visualizer"
             id="hu.bme.mit.inf.MDSD.DFNModeler.graphviewer">
       </category>
       <view
-            name="Graph Sample View"
+            name="DFN Graph Visualizer View"
             icon="icons/sample.gif"
             category="hu.bme.mit.inf.MDSD.DFNModeler.graphviewer"
             class="hu.bme.mit.inf.mdsd.dfnmodeler.graphviewer.views.GraphSampleView"

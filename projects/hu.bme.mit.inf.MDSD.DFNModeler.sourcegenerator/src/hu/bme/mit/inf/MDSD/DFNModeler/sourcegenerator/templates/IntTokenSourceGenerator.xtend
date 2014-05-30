@@ -3,15 +3,17 @@ package hu.bme.mit.inf.MDSD.DFNModeler.sourcegenerator.templates
 import DFN.IntToken
 import DFN.NamedElement
 import hu.bme.mit.inf.MDSD.DFNModeler.sourcegenerator.abstracttemplates.SourceGenerator
+import hu.bme.mit.inf.MDSD.DFNModeler.sourcegenerator.snippets.NetworkSnippets
 
 /**
  * 
  */
 class IntTokenSourceGenerator extends SourceGenerator {
 
-	new(NamedElement element, String projectName) {
-		super(element, projectName)
+	new(NamedElement element, String projectName, NetworkSnippets protocol) {
+		super(element, projectName, protocol)
 	}
+
 
 	override compile() {
 		if (sourceElement instanceof IntToken) {

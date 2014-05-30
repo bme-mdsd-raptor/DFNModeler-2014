@@ -12,7 +12,7 @@ import DFN.RelationalSymbols
 import DFN.StringToken
 import DFN.Transition
 import api.CodegenAPI
-import java.util.ArrayList
+import hu.bme.mit.inf.MDSD.DFNModeler.sourcegenerator.snippets.NetworkSnippets
 import java.util.Collection
 import java.util.HashSet
 import java.util.Set
@@ -22,8 +22,8 @@ import java.util.Set
  */
 abstract class EndPointSourceGenerator extends SourceGenerator {
 
-	new(NamedElement element, String projectName) {
-		super(element, projectName)
+	new(NamedElement element, String projectName, NetworkSnippets protocol) {
+		super(element, projectName, protocol)
 	}
 
 	override compileClass(NamedElement element,String packageName, String content, Collection<NamedElement> imps) '''	
@@ -34,13 +34,13 @@ abstract class EndPointSourceGenerator extends SourceGenerator {
 		public class «element.generatedName» «network.compileImplements»
 		{	
 			«network.compileNetworkCode(element)»
-
-
+			
 			«content»
 		}
 	'''
 
 	def compileEndPort(EndPoint element) '''
+
 		«FOR port : element.ports»
 			«IF (port instanceof OutPort)»
 				«IF (inApp(element.getApp(), port.getOut()))»
@@ -77,13 +77,13 @@ abstract class EndPointSourceGenerator extends SourceGenerator {
 	'''
 
 	def compileSendToken(OutPort port, EndPoint element) '''
-		«IF (getTo(port.getOut()).app == element.app || element.app == null)»		
-			«port.getOut().target.endpoint.instanceName».setInputOn«port.getOut().target.generatedName»(token);
+		«IF (element.app == null || getTo(port.getOut()).app.equals(element.app))»		
+			«port.getOut().to.instanceName».setInputOn«port.getOut().target.generatedName»(token);
 		«ELSE»	
 			«IF (port.getOut().token instanceof IntToken)»
-				sendMessage("«port.getOut().target.endpoint.instanceName»/«port.getOut().target.generatedName»","" + token.getValue());
+				sendMessage("«network.compileTopicName(port.getOut().toPort)»","" + token.getValue());
 			«ELSE»
-				sendMessage("«port.getOut().target.endpoint.instanceName»/«port.getOut().target.generatedName»",token.name());
+				sendMessage("«network.compileTopicName(port.getOut().toPort)»",token.name());
 			«ENDIF»		
 		«ENDIF»	
 	'''

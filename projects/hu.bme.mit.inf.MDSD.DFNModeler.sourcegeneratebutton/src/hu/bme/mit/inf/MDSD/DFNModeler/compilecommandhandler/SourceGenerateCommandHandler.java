@@ -1,5 +1,8 @@
 package hu.bme.mit.inf.MDSD.DFNModeler.compilecommandhandler;
 
+import hu.bme.mit.inf.MDSD.DFNModeler.sourcegenerator.snippets.ActiveMQSnippets;
+import hu.bme.mit.inf.MDSD.DFNModeler.sourcegenerator.snippets.MQTTSnippets;
+import hu.bme.mit.inf.MDSD.DFNModeler.sourcegenerator.snippets.NetworkSnippets;
 import hu.bme.mit.inf.MDSD.DFNModeler.sourcegenerator.templates.AppSourceGenerator;
 import hu.bme.mit.inf.MDSD.DFNModeler.sourcegenerator.templates.DFNControllerSourceGenerator;
 import hu.bme.mit.inf.MDSD.DFNModeler.sourcegenerator.templates.IntTokenSourceGenerator;
@@ -129,8 +132,16 @@ public class SourceGenerateCommandHandler extends AbstractHandler implements
 	}
 
 	private void generateSources(DataFlowNetwork dataModel, String projectName) {
+		NetworkSnippets network;
+		if (dataModel.getProtocol().getLiteral() == "JMS") {
+			network = new ActiveMQSnippets();
+		}
+		else
+		{
+			network = new MQTTSnippets();
+		}
 		DFNControllerSourceGenerator dfngenerator = new DFNControllerSourceGenerator(
-				dataModel, projectName);
+				dataModel, projectName, network);
 		dfngenerator.generateSources();
 
 		for (DataFlowNetwork element : dataModel.getOwnedDFNs()) {
@@ -139,25 +150,25 @@ public class SourceGenerateCommandHandler extends AbstractHandler implements
 
 		for (Application element : dataModel.getApps()) {
 			AppSourceGenerator appGenerator = new AppSourceGenerator(element,
-					projectName);
+					projectName, network);
 			appGenerator.generateSources();
 
 		}
 
 		for (Node element : dataModel.getNodes()) {
 			NodeSourceGenerator nodeGenerator = new NodeSourceGenerator(
-					element, projectName);
+					element, projectName, network);
 			nodeGenerator.generateSources();
 		}
 
 		for (Token element : dataModel.getTokens()) {
 			if (element instanceof IntToken) {
 				IntTokenSourceGenerator intTokenGenerator = new IntTokenSourceGenerator(
-						element, projectName);
+						element, projectName, network);
 				intTokenGenerator.generateSources();
 			} else if (element instanceof StringToken) {
 				StringTokenSourceGenerator stringTokenGenerator = new StringTokenSourceGenerator(
-						element, projectName);
+						element, projectName, network);
 				stringTokenGenerator.generateSources();
 			}
 
