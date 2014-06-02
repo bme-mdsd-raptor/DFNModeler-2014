@@ -1,3 +1,5 @@
+![Raptor Team](https://raw.githubusercontent.com/bme-mdsd-raptor/DFNModeler-2014/master/logo.png "Raptor Team")
+
 DFNModeler-2014
 ===============
 
