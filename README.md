@@ -10,7 +10,7 @@ The repository contains an example data flow network that represents a greenhous
 
 The project created for the [Model Driven Software Development](https://inf.mit.bme.hu/en/node/42 "The course's website") course's homework at the Budapest University of Technology and Economics (BME).
 
-User Guide could be found [here](https://github.com/bme-mdsd-raptor/DFNModeler-2014/blob/master/documentation/UserGuide.pdf "UserGuide.pdf")
+User Guide could be found [here](https://github.com/bme-mdsd-raptor/DFNModeler-2014/blob/master/documentation/UserGuide.pdf "UserGuide.pdf").
 
 | Member | Working Hours |
 |---------|---------|
