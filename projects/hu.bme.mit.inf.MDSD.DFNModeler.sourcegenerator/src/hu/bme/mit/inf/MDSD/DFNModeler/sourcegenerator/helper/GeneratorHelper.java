@@ -160,6 +160,32 @@ public class GeneratorHelper {
 		// Return with the file.
 		return file;
 	}
+	
+	public static IFile createrootFile(IProject project, String name,
+			boolean derived, CharSequence content) throws CoreException {
+		// Referring a file by a relative name.
+		IFile file = project.getFile(name);
+
+		// If the file existed before, and it is not editable, it should be
+		// deleted
+		IProgressMonitor monitor = new NullProgressMonitor();
+		if (file.exists())
+			file.delete(true, monitor);
+
+		// Create the file if it is to exists.
+		if (!file.exists()) {
+			file.create(
+					new ByteArrayInputStream(content.toString().getBytes()),
+					true, monitor);
+
+			// Setting the properties of the file.
+			if (derived)
+				file.setDerived(true, monitor);
+		}
+
+		// Return with the file.
+		return file;
+	}
 
 	public static IProject createProject(String name,
 			Collection<String> projectDependencies, NetworkSnippets network) throws CoreException {
@@ -209,7 +235,7 @@ public class GeneratorHelper {
 		if (!targetFolder.exists()) {
 			targetFolder.create(IResource.NONE, true, null);
 		}
-		createFile(targetFolder, "pom.xml", true, PomGenerator.compile(name, network));
+		createrootFile(project, "pom.xml", true, PomGenerator.compile(name, network));
 		return project;
 	}
 }
